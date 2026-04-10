@@ -16,14 +16,16 @@ def read_file(file_path: str) -> str:
         f.close()
         print(f"File '{file_path}' closed.")
     except FileNotFoundError as e:
-        print(f"Error opening file '{file_path}': {e}")
+        sys.stderr.write(f"[STDERR] Error opening file'{file_path}': {e}\n")
+        sys.stderr.flush()
     except PermissionError as e:
-        print(f"Error opening file '{file_path}': {e}")
+        sys.stderr.write(f"[STDERR] Error opening file'{file_path}': {e}\n")
+        sys.stderr.flush()
     return content
 
 
 def modify_content(content: str) -> str:
-    print("Transform data:")
+    print("\nTransform data:")
     print("---\n")
     lines = content.splitlines()
     new_content: str = ""
@@ -36,7 +38,9 @@ def modify_content(content: str) -> str:
 
 
 def save_file(new_content: str) -> None:
-    new_file: str = input("Enter new file name (or empty): ")
+    sys.stdout.write("Enter new file name (or empty): ")
+    sys.stdout.flush()
+    new_file: str = sys.stdin.readline().rstrip("\n")
     if new_file == "":
         print("Not saving data.")
         return
@@ -47,12 +51,14 @@ def save_file(new_content: str) -> None:
         f.close()
         print(f"Data saved in file '{new_file}'.")
     except PermissionError as e:
-        print(f"Error saving in file '{new_file}': {e}")
+        sys.stderr.write(f"[STDERR] Error opening file'{new_file}': {e}\n")
+        sys.stderr.flush()
+        print("Data not saved.")
 
 
 def main() -> None:
     if len(sys.argv) < 2:
-        print("Usage: ft_archive_creation.py <file>")
+        print("Usage: ft_stream_management.py <file>")
         return
 
     content: str = read_file(sys.argv[1])

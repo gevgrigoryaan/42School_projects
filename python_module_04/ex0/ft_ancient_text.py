@@ -19,7 +19,7 @@ def main() -> None:
         f = open(file_path)
         print("---\n")
         print(f.read(), end="")
-        print("---")
+        print("\n---")
         f.close()
         print(f"File '{file_path}' closed")
     except FileNotFoundError as e:
